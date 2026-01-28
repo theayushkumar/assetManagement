@@ -2,6 +2,11 @@ import { Routes } from '@angular/router';
 
 export const ADMIN_ROUTES: Routes = [
   {
+    path: '',
+    redirectTo: 'admin-dashboard',
+    pathMatch:'full'
+  },
+  {
     path: 'admin-dashboard',
     loadChildren: () =>
       import('./admin-dashboard/admin-dashboard.routes').then(
