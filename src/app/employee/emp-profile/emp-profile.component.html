@@ -1,1 +1,49 @@
-<p>emp-profile works!</p>
+<div class="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+  <!-- PROFILE CARD -->
+  <div
+    class="bg-white rounded-3xl shadow-lg p-8 w-full max-w-sm text-center border border-gray-200 hover:shadow-2xl transition"
+  >
+    <!-- Avatar with border ring -->
+    <div class="mx-auto mb-5 relative">
+      <div
+        class="h-24 w-24 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white text-3xl font-bold shadow-md ring-4 ring-white"
+      >
+        A
+      </div>
+    </div>
+
+    <!-- Name & Role -->
+    <h2 class="text-2xl font-semibold text-gray-900 mb-1">Employee Name</h2>
+    <p class="text-sm text-gray-500 mb-6">Developer</p>
+
+    <!-- Info Section -->
+    <div class="bg-gray-50 rounded-xl p-4 text-left space-y-3 mb-6">
+      <div class="flex justify-between">
+        <span class="text-gray-600 font-medium">Email</span>
+        <span class="text-gray-800">{{ `example@gmail.com` }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-gray-600 font-medium">Phone</span>
+        <span class="text-gray-800">+91 1234567890</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-gray-600 font-medium">Role</span>
+        <span class="text-gray-800">employee</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-center gap-4">
+      <button
+        class="bg-indigo-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition"
+      >
+        Edit Profile
+      </button>
+      <button
+        class="bg-gray-200 text-gray-800 px-5 py-2 rounded-lg font-semibold hover:bg-gray-300 transition"
+      >
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
