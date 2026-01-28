@@ -1,86 +1,77 @@
-<div class="p-6 bg-gray-100 min-h-screen">
+<div class="bg-gray-100 min-h-screen p-8">
   <!-- Header -->
   <div class="flex justify-between items-center mb-6">
-    <div>
-      <h1 class="text-2xl font-bold">Dynamic Report Builder</h1>
-      <p class="text-gray-500 text-sm">Manage dynamic report.</p>
+    <div class="flex items-center gap-2">
+      <a
+        [routerLink]="['/admin/admin-dashboard']"
+        mat-icon-button
+        class="w-10 text-white rounded-full mr-1"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+      <span>
+        <h1 class="text-2xl font-bold">Product Management</h1>
+        <p class="text-gray-500 text-sm">Manage all products</p>
+      </span>
     </div>
     <button
-      class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center gap-2"
+      class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 cursor-pointer flex items-center gap-2"
     >
-      <span class="material-icons">add</span> Create Report
+      <span class="material-icons">add</span> Add Product
     </button>
   </div>
 
-  <!-- Filters -->
-  <div class="flex gap-4 mb-4 flex-wrap">
-    <select
-      [(ngModel)]="selectedStatus"
-      (change)="applyFilters()"
-      class="border rounded px-3 py-2"
-    >
-      <option value="">All Status</option>
-      <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
-    </select>
-
-    <select
-      [(ngModel)]="selectedCategory"
-      (change)="applyFilters()"
-      class="border rounded px-3 py-2"
-    >
-      <option value="">All Categories</option>
-      <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
-    </select>
-
-    <input
-      type="text"
-      placeholder="Search"
-      [(ngModel)]="searchText"
-      (input)="applyFilters()"
-      class="border rounded px-3 py-2 flex-1 min-w-[200px]"
-    />
-  </div>
-
   <!-- Table -->
-  <mat-card class="p-4">
-    <div class="overflow-x-auto">
-      <table mat-table [dataSource]="dataSource" matSort class="min-w-full">
+  <div
+    class="bg-white w-full mt-8 flex flex-col overflow-hidden rounded-2xl p-8 pb-4 shadow"
+  >
+    <mat-form-field appearance="outline" class="max-w-[300px]">
+      <mat-label>Search</mat-label>
+      <input matInput placeholder="Search" />
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
 
-        <!-- Report Name -->
-        <ng-container matColumnDef="reportName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Report Name</th>
-          <td mat-cell *matCellDef="let element">{{ element.reportName }}</td>
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource" matSort class="w-full">
+        <!-- Product Name -->
+        <ng-container matColumnDef="productName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Product Name
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.productName }}</td>
         </ng-container>
 
-        <!-- Report Category -->
-        <ng-container matColumnDef="reportCategory">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Report Category</th>
-          <td mat-cell *matCellDef="let element">{{ element.reportCategory }}</td>
-        </ng-container>
-
-        <!-- Created By -->
-        <ng-container matColumnDef="createdBy">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Created By</th>
-          <td mat-cell *matCellDef="let element">{{ element.createdBy }}</td>
-        </ng-container>
-
-        <!-- Created Date -->
-        <ng-container matColumnDef="createdDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</th>
-          <td mat-cell *matCellDef="let element">{{ element.createdDate | date:'dd-MM-yyyy hh:mm:ss a' }}</td>
-        </ng-container>
-
-        <!-- Description -->
-        <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Report Description</th>
-          <td mat-cell *matCellDef="let element">{{ element.description }}</td>
-        </ng-container>
-
-        <!-- Status -->
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
+        <!-- Product Category -->
+        <ng-container matColumnDef="productCategory">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
           <td mat-cell *matCellDef="let element">
-            <mat-slide-toggle [(ngModel)]="element.status"></mat-slide-toggle>
+            {{ element.productCategory }}
+          </td>
+        </ng-container>
+
+        <!-- Product Price -->
+        <ng-container matColumnDef="productPrice">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+          <td mat-cell *matCellDef="let element">
+            ₹{{ element.productPrice }}
+          </td>
+        </ng-container>
+
+        <!-- Manufacture Date -->
+        <ng-container matColumnDef="manufactureDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Manufacture Date
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.manufactureDate | date: "dd-MM-yyyy" }}
+          </td>
+        </ng-container>
+
+        <!-- Assigned To -->
+        <ng-container matColumnDef="assignedTo">
+          <th mat-header-cell *matHeaderCellDef>Assign To</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.assignedTo || "-" }}
           </td>
         </ng-container>
 
@@ -88,19 +79,30 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button><mat-icon>more_vert</mat-icon></button>
+            <button mat-icon-button (click)="edit(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-gray-100"></tr>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
+
+      <p *ngIf="dataSource?.filteredData?.length == 0" class="text-center mt-5">
+        No products found!
+      </p>
     </div>
 
     <!-- Paginator -->
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 25, 50]"
-      showFirstLastButtons
-    ></mat-paginator>
-  </mat-card>
+    <div class="paginator-container mt-4">
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
 </div>
