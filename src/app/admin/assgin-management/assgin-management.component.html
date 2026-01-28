@@ -1,1 +1,71 @@
-<p>assgin-management works!</p>
+<div class="p-4">
+  <!-- Header -->
+  <div class="flex justify-between mb-4">
+    <div class="flex items-center gap-4">
+      <a
+        [routerLink]="['/admin/admin-dashboard']"
+        mat-icon-button
+        class="w-10 text-white rounded-full mr-1"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+      <h1 class="text-2xl font-bold">Product Management</h1>
+    </div>
+    <button mat-mini-fab color="primary" aria-label="Create Assign">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <!-- Material Card -->
+  <mat-card class="p-4 relative">
+    <!-- Top-right button -->
+
+    <!-- Material Table -->
+    <div class="overflow-auto">
+      <table mat-table [dataSource]="data" class="mat-elevation-z1 w-full">
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+
+        <!-- Product Column -->
+        <ng-container matColumnDef="product">
+          <th mat-header-cell *matHeaderCellDef>Product</th>
+          <td mat-cell *matCellDef="let element">{{ element.product }}</td>
+        </ng-container>
+
+        <!-- Employee Column -->
+        <ng-container matColumnDef="employee">
+          <th mat-header-cell *matHeaderCellDef>Employee</th>
+          <td mat-cell *matCellDef="let element">{{ element.employee }}</td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-chip
+              [color]="element.status === 'Assigned' ? 'primary' : 'warn'"
+              selected
+            >
+              {{ element.status }}
+            </mat-chip>
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-button color="accent" (click)="edit(element)">
+              Edit
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </mat-card>
+</div>
